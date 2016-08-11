@@ -180,7 +180,6 @@
     <Compile Include="Domain\Topic.cs" />
     <Compile Include="Domain\TrendingTopics.cs" />
     <Compile Include="Domain\UserInfo.cs" />
-    <Compile Include="Resource\Constants.cs" />
     <Compile Include="Resource\PublicConstants.cs" />
     <Compile Include="SAManager.cs" />
     <Compile Include="Services\CheckTrends.cs" />
