@@ -13,7 +13,7 @@ namespace TwitterStreamEventBot.Controllers
     {
         [HttpGet]
         [Route("api/Notifications")]
-        public async Task SendMessage(string url, ChannelAccount recipient, ChannelAccount from)
+        public async Task SendMessage(string url, ChannelAccount recipient, ChannelAccount from, string topic)
         {
             var connector = new ConnectorClient(new Uri(url));
             IMessageActivity newMessage = Activity.CreateMessageActivity();
@@ -21,14 +21,7 @@ namespace TwitterStreamEventBot.Controllers
             newMessage.Type = ActivityTypes.Message;
             newMessage.From = from;
             newMessage.Recipient = recipient;
-            if (from.Name != "User2")
-            {
-                newMessage.Text = "hi user2!";
-            }
-            else
-            {
-                newMessage.Text = "this isn't user2";
-            }
+            newMessage.Text = $"Hey, something interesting's happening with {topic}!";
             newMessage.Locale = "en-Us";
             newMessage.ChannelId = "emulator";
             newMessage.Conversation = new ConversationAccount(id: conversation.Id);

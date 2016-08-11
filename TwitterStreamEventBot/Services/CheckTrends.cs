@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Bot.Connector;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using TwitterStreamEventBot.Controllers;
 using TwitterStreamEventBot.Domain;
 using TwitterStreamEventBot.Test;
 
@@ -12,15 +14,22 @@ namespace TwitterStreamEventBot.Service
     {
         public static void Check()
         {
-            //might change topicList to a hashset instead
-            foreach (Topic t in UserInfo.topicList)
-            {
-                if(Trending.trendList.Contains(t.title)) {
-                    if (DateTime.Now > t.messagedTime.AddMinutes(1)) {
-                        Debug.WriteLine("check");
+            var notificationController = new NotificationController();
+            var url = "http://localhost:9000/";
+            var bot = new ChannelAccount("56800324", "Bot1");
 
-                        //TODO: proactive message to user
-                        t.messagedTime = DateTime.Now;
+            List<ChannelAccount> userList;
+
+            if (TrendingTopics.trendingList != null)
+            {
+                foreach (string t in TrendingTopics.trendingList)
+                {
+                    if (UserInfo.topicDict.TryGetValue(t, out userList))
+                    {
+                        foreach (ChannelAccount user in userList)
+                        {
+                            notificationController.SendMessage(url, bot, user, t);
+                        }
                     }
                 }
             }

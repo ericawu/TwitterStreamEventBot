@@ -95,7 +95,7 @@ namespace TwitterStreamEventBot
                 await client.GetAsync(notificationUri);
                 */
                 var notificationController = new NotificationController();
-                await notificationController.SendMessage(url, recipient, from);
+                //await notificationController.SendMessage(url, recipient, from);
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {

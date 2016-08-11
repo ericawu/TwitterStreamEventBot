@@ -48,7 +48,7 @@ namespace TwitterStreamEventBot.App_Start
             //Debug.WriteLine("start startTimer");
             Timer t = new Timer();
             t.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            t.Interval = 20 * 1000;
+            t.Interval = 10 * 1000;
             t.Enabled = true;
             
             //Debug.WriteLine("end startTimer");
@@ -70,7 +70,8 @@ namespace TwitterStreamEventBot.App_Start
             if (topics != null)
             {
                 countWords(topics);
-                outreach();
+                //outreach();
+                CheckTrends.Check();
             }
             //Debug.WriteLine("end ontimedevent");
         }
@@ -81,9 +82,9 @@ namespace TwitterStreamEventBot.App_Start
             var url = "http://localhost:9000/";
             var recipient = new ChannelAccount("56800324", "Bot1");
             var from = new ChannelAccount("2c1c7fa4", "User2");
-            notificationController.SendMessage(url, recipient, from);
+            notificationController.SendMessage(url, recipient, from, "outreach");
             var from2 = new ChannelAccount("2c1c7fa5", "User3");
-            notificationController.SendMessage(url, recipient, from2);
+            notificationController.SendMessage(url, recipient, from2, "outreach");
         }
 
         private static void countWords(List<string> list)
@@ -164,7 +165,7 @@ namespace TwitterStreamEventBot.App_Start
                     stream.StartStreamMatchingAllConditions();
                 }
             };
-            stream.StartStreamMatchingAnyCondition();
+            stream.StartStreamMatchingAllConditions();
            // Debug.WriteLine("end tweetstream");
         }
 
