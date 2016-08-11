@@ -19,7 +19,7 @@ namespace TwitterStreamEventBot.Resource
         public const string ServerName = "twitterstreamanalytics-server";
         public const string DBName = "TwitterBotStreamAnalyticsDB";
         public const string DBUsername = "t-eriwu@microsoft.com@twitterstreamanalytics-server";
-        public const string PW = "test";
+        public const string PW = "test2";
         public const string ActiveDirectoryEndpoint = "https://login.windows.net/";
         public const string ResourceManagerEndpoint = "https://management.azure.com/";
         public const string WindowsManagementUri = "https://management.core.windows.net/";
