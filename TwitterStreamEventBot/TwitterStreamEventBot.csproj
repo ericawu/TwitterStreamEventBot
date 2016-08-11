@@ -180,6 +180,7 @@
     <Compile Include="Domain\Topic.cs" />
     <Compile Include="Domain\TrendingTopics.cs" />
     <Compile Include="Domain\UserInfo.cs" />
+    <Compile Include="Resource\PublicConstants.cs" />
     <Compile Include="SAManager.cs" />
     <Compile Include="Services\CheckTrends.cs" />
     <Compile Include="Services\GetKeywords.cs" />
@@ -191,7 +192,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resource\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
