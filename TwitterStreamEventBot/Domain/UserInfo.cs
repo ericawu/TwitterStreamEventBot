@@ -12,6 +12,6 @@ namespace TwitterStreamEventBot.Domain
         //dump in application state/db
         public static List<Topic> topicList { get; set; }
         public static HashSet<string> topicNames { get; set; }
-        public static Dictionary<string, List<ChannelAccount>> topicDict { get; set; }
+        public static Dictionary<string, Dictionary<ChannelAccount, DateTime>> topicDict { get; set; }
     }
 }

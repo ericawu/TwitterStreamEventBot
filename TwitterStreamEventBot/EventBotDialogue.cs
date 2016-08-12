@@ -51,20 +51,20 @@ namespace TwitterStreamEventBot
                     //UserInfo.topicList.Add(t);
                     //UserInfo.topicNames.Add(entity);
 
-                    List<ChannelAccount> userList;
+                    Dictionary<ChannelAccount, DateTime> userList;
                 
                     if (!UserInfo.topicDict.TryGetValue(t.title, out userList)) 
                     {
-                        UserInfo.topicDict.Add(t.title, new List<ChannelAccount>() { recipient });
+                    UserInfo.topicDict.Add(t.title, new Dictionary<ChannelAccount, DateTime>() { { recipient, DateTime.Now.AddHours(-2) } });
                         await context.PostAsync($"You are now following the topic {entity}");
                     }
-                    else if (userList.Any(user => user.Id == recipient.Id))
+                    else if (userList.Any(user => user.Key.Id == recipient.Id))
                     {
                         await context.PostAsync($"I gotchu, you're already following the topic {entity}");
                     }
                     else
                     {
-                        userList.Add(recipient);
+                        userList.Add(recipient, DateTime.Now.AddHours(-2));
                         UserInfo.topicDict[entity] = userList;
                         await context.PostAsync($"You are now following the topic {entity}");
                     }
