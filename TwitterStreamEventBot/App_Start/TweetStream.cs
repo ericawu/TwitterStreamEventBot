@@ -48,7 +48,7 @@ namespace TwitterStreamEventBot.App_Start
             //Debug.WriteLine("start startTimer");
             Timer t = new Timer();
             t.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            t.Interval = 10 * 1000;
+            t.Interval = 15 * 1000;
             t.Enabled = true;
             
             //Debug.WriteLine("end startTimer");
@@ -77,7 +77,7 @@ namespace TwitterStreamEventBot.App_Start
         }
 
         private static void outreach()
-        {
+        {            //change
             var notificationController = new NotificationController();
             var url = "http://localhost:9000/";
             var recipient = new ChannelAccount("56800324", "Bot1");

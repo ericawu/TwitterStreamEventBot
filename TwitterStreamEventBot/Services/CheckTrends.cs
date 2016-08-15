@@ -18,7 +18,8 @@ namespace TwitterStreamEventBot.Service
             var url = "http://localhost:9000/";
             var bot = new ChannelAccount("56800324", "Bot1");
 
-            List<ChannelAccount> userList;
+            Dictionary<ChannelAccount, DateTime> userList;
+            Dictionary<ChannelAccount, DateTime> userListNew;
 
             if (TrendingTopics.trendingList != null)
             {
@@ -26,10 +27,17 @@ namespace TwitterStreamEventBot.Service
                 {
                     if (UserInfo.topicDict.TryGetValue(t, out userList))
                     {
-                        foreach (ChannelAccount user in userList)
+                        userListNew = new Dictionary<ChannelAccount, DateTime>(userList);
+
+                        foreach (KeyValuePair<ChannelAccount, DateTime> user in userList)
                         {
-                            notificationController.SendMessage(url, bot, user, t);
+                            if (DateTime.Now > user.Value.AddHours(1))
+                            {
+                                userListNew[user.Key] = DateTime.Now;
+                                notificationController.SendMessage(url, bot, user.Key, t);
+                            }
                         }
+                        UserInfo.topicDict[t] = userListNew;
                     }
                 }
             }
