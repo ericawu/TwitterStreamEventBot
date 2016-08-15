@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using TwitterStreamEventBot.Dialogs;
 using TwitterStreamEventBot.Services;
 using TwitterStreamEventBot.Controllers;
+using Microsoft.IdentityModel.Protocols;
+using System.Configuration;
 
 namespace TwitterStreamEventBot
 {
@@ -41,15 +43,14 @@ namespace TwitterStreamEventBot
                     UserInfo.topicList = new List<Topic>();
                     UserInfo.topicNames = new HashSet<string>();
                 }
-
+                ConfigurationManager.AppSettings["BotId"] = "test";
                 // await Conversation.SendAsync(activity, () => new NotificationDialog("test"));
                 var test = new EventBotDialogue();
                 await Conversation.SendAsync(activity, () => test);
                 //await Conversation.SendAsync(activity, () => new EventBotDialogue(activity.Recipient));
             }
             else if (activity.GetActivityType() == ActivityTypes.ConversationUpdate)
-            {
-                
+            {                
                 //SelectRows();
                 //DBQueries dbconnection = new DBQueries();
                 //Task.Run(() => DBQueries.GetLastCount("ALLTWEETS"));
