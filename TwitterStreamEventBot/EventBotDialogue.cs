@@ -26,25 +26,22 @@ namespace TwitterStreamEventBot
         [LuisIntent("subscribe")]
         public async Task Subscribe(IDialogContext context, LuisResult result)
         {
-
             var m = context.MakeMessage();
             var from = m.From;
             ChannelAccount recipient = m.Recipient;
             string serviceurl = m.ServiceUrl;
-            //TODO: space inefficiency
-            //TODO: dialog chains for already followed topics? ask if they want to unsubscribe?
+
             foreach (EntityRecommendation e in result.Entities)
             {
                 string entity = e.Entity;
-                //if (UserInfo.topicList.Count == 0)
-                //{
+
                 Topic t = new Topic();
                 t.title = entity;
                 //UserInfo.topicList.Add(t);
                 //UserInfo.topicNames.Add(entity);
 
                 Dictionary<ChannelAccount, DateTime> userList;
-
+                Dictionary<BotUserChannel, DateTime> userList2;
                 BotUserChannel newChannel = new BotUserChannel();
                 newChannel.recipient = recipient;
                 newChannel.from = from;
@@ -53,7 +50,6 @@ namespace TwitterStreamEventBot
                 {
                     UserInfo.topicDict.Add(t.title, new Dictionary<ChannelAccount, DateTime>() { { recipient, DateTime.Now.AddHours(-2) } });
                     UserInfo.topicDict2.Add(t.title, new Dictionary<BotUserChannel, DateTime>() { { newChannel, DateTime.Now.AddHours(-2) } });
-                    // await context.PostAsync($"your url is: {serviceurl}");
                     await context.PostAsync($"You are now following the topic {entity}");
                 }
                 else if (userList.Any(user => user.Key.Id == recipient.Id))
@@ -64,6 +60,9 @@ namespace TwitterStreamEventBot
                 {
                     userList.Add(recipient, DateTime.Now.AddHours(-2));
                     UserInfo.topicDict[entity] = userList;
+                    userList2 = UserInfo.topicDict2[entity];
+                    userList2.Add(newChannel, DateTime.Now.AddHours(-2));
+                    UserInfo.topicDict2[entity] = userList2;
                     await context.PostAsync($"You are now following the topic {entity}");
                 }
 
@@ -99,11 +98,6 @@ namespace TwitterStreamEventBot
 
                     Dictionary<BotUserChannel, DateTime> userList2 = UserInfo.topicDict2[entity];
 
-
-                    if (userList2.Any(userx => userx.Key.recipient.Id == newChannel.recipient.Id))
-                    {
-
-                    }
                     var item2 = userList2.First(u => u.Key.recipient.Id == newChannel.recipient.Id).Key;
                     userList2.Remove(item2);
                     UserInfo.topicDict2[entity] = userList2;
@@ -124,7 +118,7 @@ namespace TwitterStreamEventBot
         {
             if (TrendingTopics.trendingList == null)
             {
-                await context.PostAsync("Still compiling the list, ask again in 30 seconds!");
+                await context.PostAsync("Still compiling the list, please ask again in 30 seconds!");
             }
             else
             {

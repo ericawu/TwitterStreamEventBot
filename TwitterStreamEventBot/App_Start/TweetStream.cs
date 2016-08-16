@@ -28,8 +28,8 @@ namespace TwitterStreamEventBot.App_Start
         private static EventHubClient eventHubClient = EventHubClient.CreateFromConnectionString(Constants.ConnectionString, Constants.EventHubName);
         private static List<string> groupedTweets = new List<string>();
 
-        private static List<string> ignoredWords = new List<string>(){"olympic", "olympics", "rt", "rio", "amp"}; 
-
+        private static List<string> ignoredWords = new List<string>() { "olympic", "olympics", "rt", "rio", "amp" };
+        private static int count = 0;
         public static void initializeStream()
         {
             Auth.ApplicationCredentials = new TwitterCredentials(Constants.TConsumerKey, Constants.TConsumerKeySecret, Constants.TAccessToken, Constants.TAcessTokenSecret);
@@ -44,13 +44,13 @@ namespace TwitterStreamEventBot.App_Start
 
         private static void startTimer()
         {
-            
+
             //Debug.WriteLine("start startTimer");
             Timer t = new Timer();
             t.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             t.Interval = 15 * 1000;
             t.Enabled = true;
-            
+
             //Debug.WriteLine("end startTimer");
             while (true) { };
         }
@@ -60,14 +60,15 @@ namespace TwitterStreamEventBot.App_Start
             //Debug.WriteLine("start ontimedevent");
             List<string> temp = new List<string>(groupedTweets);
             groupedTweets.Clear();
+            count = 0;
             List<string> topics = await GetKeywords.MakeRequestAsync(temp);
-            
+
             foreach (string t in temp)
             {
                 //var keywords = Task.Run(() => GetKeywords.MakeRequest(t));
                 Debug.WriteLine(t);
             }
-            if (topics != null)
+            if (topics != null && topics.Count > 0)
             {
                 countWords(topics);
                 //outreach();
@@ -91,8 +92,8 @@ namespace TwitterStreamEventBot.App_Start
         private static void countWords(List<string> list)
         {
             //Debug.WriteLine("start countwords");
-            Dictionary <string, int> dict = new Dictionary<string, int>();
-            foreach(string s in list)
+            Dictionary<string, int> dict = new Dictionary<string, int>();
+            foreach (string s in list)
             {
                 string lower = s.ToLower();
                 string[] words = lower.Split(' ');
@@ -137,15 +138,17 @@ namespace TwitterStreamEventBot.App_Start
             {
                 try
                 {
-                    //Serialize to JSON, Stream Analytics won't work without doing so 
-                    //QUESTION: what is tweetdto? 
-                    //ANSWER: data transfer object 
+
                     var jsonData = JsonConvert.SerializeObject(arg.Tweet.TweetDTO);
                     //Debug.WriteLine(arg.Tweet.Text);
 
-                    //Add cog services
+                    //  if (count < 150)
+                    // {
                     groupedTweets.Add(arg.Tweet.Text.ToLower());
-                    eventHubClient.Send(new EventData(Encoding.UTF8.GetBytes(jsonData)));
+                    count++;
+                    //  }
+
+
                 }
 
                 catch (Exception exception)
@@ -167,7 +170,7 @@ namespace TwitterStreamEventBot.App_Start
                 }
             };
             stream.StartStreamMatchingAllConditions();
-           // Debug.WriteLine("end tweetstream");
+            // Debug.WriteLine("end tweetstream");
         }
 
     }
