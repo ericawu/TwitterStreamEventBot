@@ -87,7 +87,7 @@ namespace TwitterStreamEventBot
 
                 if (!UserInfo.topicDict.TryGetValue(entity, out userList))
                 {
-                    context.PostAsync($"You aren't subscribed to entity yet.");
+                    context.PostAsync($"You aren't subscribed to {entity} yet.");
                 }
                 else if (userList.Any(user => user.Key.Id == recipient.Id))
                 {
