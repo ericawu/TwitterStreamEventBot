@@ -17,7 +17,7 @@ using Microsoft.Bot.Builder.Luis.Models;
 
 namespace TwitterStreamEventBot
 {
-    
+
     [Serializable]
     [LuisModel(Constants.LUISAppId, Constants.LUISSubscriptionId)]
     public class EventBotDialogue : LuisDialog<object>
@@ -29,13 +29,13 @@ namespace TwitterStreamEventBot
 
         //public EventBotDialogue(string r)
         //{
-            //this.recipient = r;
-          //  test = r;
-       // }
+        //this.recipient = r;
+        //  test = r;
+        // }
         [LuisIntent("subscribe")]
         public async Task Subscribe(IDialogContext context, LuisResult result)
         {
-           
+
             var m = context.MakeMessage();
             var from = m.From;
             ChannelAccount recipient = m.Recipient;
@@ -47,60 +47,49 @@ namespace TwitterStreamEventBot
                 string entity = e.Entity;
                 //if (UserInfo.topicList.Count == 0)
                 //{
-                    Topic t = new Topic();
-                    t.title = entity;
-                    //UserInfo.topicList.Add(t);
-                    //UserInfo.topicNames.Add(entity);
+                Topic t = new Topic();
+                t.title = entity;
+                //UserInfo.topicList.Add(t);
+                //UserInfo.topicNames.Add(entity);
 
-                    Dictionary<ChannelAccount, DateTime> userList;
+                Dictionary<ChannelAccount, DateTime> userList;
 
                 BotUserChannel newChannel = new BotUserChannel();
                 newChannel.recipient = recipient;
                 newChannel.from = from;
-                
-                    if (!UserInfo.topicDict.TryGetValue(t.title, out userList)) 
-                    {
+
+                if (!UserInfo.topicDict.TryGetValue(t.title, out userList))
+                {
                     UserInfo.topicDict.Add(t.title, new Dictionary<ChannelAccount, DateTime>() { { recipient, DateTime.Now.AddHours(-2) } });
                     UserInfo.topicDict2.Add(t.title, new Dictionary<BotUserChannel, DateTime>() { { newChannel, DateTime.Now.AddHours(-2) } });
-                    await context.PostAsync($"your url is: {serviceurl}");
-                        await context.PostAsync($"You are now following the topic {entity}");
-                    }
-                    else if (userList.Any(user => user.Key.Id == recipient.Id))
-                    {
-                        await context.PostAsync($"I gotchu, you're already following the topic {entity}");
-                    }
-                    else
-                    {
-                        userList.Add(recipient, DateTime.Now.AddHours(-2));
-                        UserInfo.topicDict[entity] = userList;
-                        await context.PostAsync($"You are now following the topic {entity}");
-                    }
+                   // await context.PostAsync($"your url is: {serviceurl}");
+                    await context.PostAsync($"You are now following the topic {entity}");
+                }
+                else if (userList.Any(user => user.Key.Id == recipient.Id))
+                {
+                    await context.PostAsync($"I gotchu, you're already following the topic {entity}");
+                }
+                else
+                {
+                    userList.Add(recipient, DateTime.Now.AddHours(-2));
+                    UserInfo.topicDict[entity] = userList;
+                    await context.PostAsync($"You are now following the topic {entity}");
+                }
 
-                //}
-                //else
-                /* {
-                    //can't add things to list while enumerating
-                    List<string> tempList = new List<string>();
+            }
+            context.Done(0);
+        }
 
-                    if (!UserInfo.topicNames.Contains(entity))
-                    {
-                        Topic t = new Topic();
-                        t.title = entity;
-                        UserInfo.topicList.Add(t);
-                        tempList.Add(entity);
-                        await context.PostAsync($"You are now following the topic {entity}");
-                    }
-                    else
-                    {
-                        await context.PostAsync($"You are already following the topic {entity}");
-                    }
-
-
-                    foreach (string topic in tempList)
-                    {
-                        UserInfo.topicNames.Add(topic);
-                    }
-                } */
+        [LuisIntent("ListTrending")]
+        public async Task ListTrending(IDialogContext context, LuisResult result)
+        {
+            if (TrendingTopics.trendingList == null)
+            {
+                await context.PostAsync("Still compiling the list, ask again in 30 seconds!");
+            }
+            else
+            {
+                await context.PostAsync("The current list of trending topics is: " + string.Join(", ", TrendingTopics.trendingList));
             }
             context.Done(0);
         }
