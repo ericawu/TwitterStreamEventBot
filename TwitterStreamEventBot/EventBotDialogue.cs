@@ -23,15 +23,6 @@ namespace TwitterStreamEventBot
     public class EventBotDialogue : LuisDialog<object>
     {
 
-        //[NonSerialized]
-        //private ChannelAccount recipient;
-        //public string test;
-
-        //public EventBotDialogue(string r)
-        //{
-        //this.recipient = r;
-        //  test = r;
-        // }
         [LuisIntent("subscribe")]
         public async Task Subscribe(IDialogContext context, LuisResult result)
         {
@@ -62,7 +53,7 @@ namespace TwitterStreamEventBot
                 {
                     UserInfo.topicDict.Add(t.title, new Dictionary<ChannelAccount, DateTime>() { { recipient, DateTime.Now.AddHours(-2) } });
                     UserInfo.topicDict2.Add(t.title, new Dictionary<BotUserChannel, DateTime>() { { newChannel, DateTime.Now.AddHours(-2) } });
-                   // await context.PostAsync($"your url is: {serviceurl}");
+                    // await context.PostAsync($"your url is: {serviceurl}");
                     await context.PostAsync($"You are now following the topic {entity}");
                 }
                 else if (userList.Any(user => user.Key.Id == recipient.Id))
@@ -78,6 +69,54 @@ namespace TwitterStreamEventBot
 
             }
             context.Done(0);
+        }
+
+        [LuisIntent("Unsubscribe")]
+        public async Task Unsubscribe(IDialogContext context, LuisResult result)
+        {
+            var m = context.MakeMessage();
+            var from = m.From;
+            ChannelAccount recipient = m.Recipient;
+            foreach (EntityRecommendation e in result.Entities)
+            {
+                string entity = e.Entity;
+                Dictionary<ChannelAccount, DateTime> userList;
+
+                BotUserChannel newChannel = new BotUserChannel();
+                newChannel.recipient = recipient;
+                newChannel.from = from;
+
+                if (!UserInfo.topicDict.TryGetValue(entity, out userList))
+                {
+                    context.PostAsync($"You aren't subscribed to entity yet.");
+                }
+                else if (userList.Any(user => user.Key.Id == recipient.Id))
+                {
+                    var item = userList.First(u => u.Key.Id == recipient.Id).Key;
+                    userList.Remove(item);
+                    
+                    UserInfo.topicDict[entity] = userList;
+
+                    Dictionary<BotUserChannel, DateTime> userList2 = UserInfo.topicDict2[entity];
+
+
+                    if (userList2.Any(userx => userx.Key.recipient.Id == newChannel.recipient.Id))
+                    {
+
+                    }
+                    var item2 = userList2.First(u => u.Key.recipient.Id == newChannel.recipient.Id).Key;
+                    userList2.Remove(item2);
+                    UserInfo.topicDict2[entity] = userList2;
+                    context.PostAsync($"You are no longer susbscribed to {entity}.");
+                }
+                else
+                {
+                    context.PostAsync($"You aren't subscribed to this {entity} yet.");
+                }
+
+            }
+            context.Done(0);
+
         }
 
         [LuisIntent("ListTrending")]
