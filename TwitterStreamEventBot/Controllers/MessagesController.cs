@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using TwitterStreamEventBot.Dialogs;
 using TwitterStreamEventBot.Services;
 using TwitterStreamEventBot.Controllers;
+using Microsoft.IdentityModel.Protocols;
+using System.Configuration;
 
 namespace TwitterStreamEventBot
 {
@@ -44,15 +46,14 @@ namespace TwitterStreamEventBot
                     UserInfo.topicList = new List<Topic>();
                     UserInfo.topicNames = new HashSet<string>();
                 }
-
+                ConfigurationManager.AppSettings["BotId"] = "test";
                 // await Conversation.SendAsync(activity, () => new NotificationDialog("test"));
                 var test = new EventBotDialogue();
                 await Conversation.SendAsync(activity, () => test);
                 //await Conversation.SendAsync(activity, () => new EventBotDialogue(activity.Recipient));
             }
-           /* else if (activity.GetActivityType() == ActivityTypes.ConversationUpdate)
-            {
-
+            else if (activity.GetActivityType() == ActivityTypes.ConversationUpdate)
+            {                
                 //SelectRows();
                 //DBQueries dbconnection = new DBQueries();
                 //Task.Run(() => DBQueries.GetLastCount("ALLTWEETS"));
@@ -62,9 +63,7 @@ namespace TwitterStreamEventBot
                 //var replyMessage = message.CreateReply("should only run once");
                 //connector.Conversations.ReplyToActivityAsync(replyMessage);
                 //await Conversation.SendAsync(activity, () => new NotificationDialog());
-                
-                
-            }*/
+            }
             else
             {
                 HandleSystemMessage(activity);
@@ -79,7 +78,6 @@ namespace TwitterStreamEventBot
             Debug.WriteLine(url);
             var recipient = message.Recipient;
             Debug.WriteLine(recipient);
-            
             var from = message.From;
             Debug.WriteLine(from);
 
@@ -105,17 +103,10 @@ namespace TwitterStreamEventBot
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
-                //connector.Conversations.ReplyToActivity("conversations");
                 // Handle add/remove from contact lists
                 // Activity.From + Activity.Action represent what happened
 
                 //TODO: Start new looping dialog that runs in a Task.Run()
-            }
-            else if (message.Type == ActivityTypes.ConversationUpdate)
-            {
-                var reply = message.CreateReply();
-                reply.Text = $"Hey {message.From.Name}! Tell me what you want to subscribe to, and I'll let you know if anything interesting is happening!";
-                connector.Conversations.ReplyToActivity(reply);
             }
             else if (message.Type == ActivityTypes.Typing)
             {
