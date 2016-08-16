@@ -56,6 +56,7 @@ namespace TwitterStreamEventBot.Services
                         response = await client.PostAsync(uri, content);
                     }
                 List<string> topicList = new List<string>();
+
                 if (response.IsSuccessStatusCode)
                 {
                     var c = await response.Content.ReadAsStringAsync();
@@ -67,17 +68,14 @@ namespace TwitterStreamEventBot.Services
                         {
                             topicList.Add(topic);
                         }
-                    }
-
-                    
+                    }                    
                 }
                 return topicList;
             }
             else
             {
-                return null;
+                return new List<string>();
             }
-
 
         }
     }

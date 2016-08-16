@@ -35,29 +35,23 @@ namespace TwitterStreamEventBot.App_Start
             Auth.ApplicationCredentials = new TwitterCredentials(Constants.TConsumerKey, Constants.TConsumerKeySecret, Constants.TAccessToken, Constants.TAcessTokenSecret);
             stream = Stream.CreateFilteredStream();
             Debug.WriteLine("***** INITIALIZED TWEETSTREAM (should happen only once) *****");
-            //var x = @HttpContext.Current.Application["ApplicationTest"];
-            //Debug.WriteLine(x);
-            //Debug.WriteLine($"{0}", UserInfo.topics[0]);
+
             Task.Run(() => startTweetStream("olympics"));
             Task.Run(() => startTimer());
         }
 
         private static void startTimer()
         {
-
-            //Debug.WriteLine("start startTimer");
             Timer t = new Timer();
             t.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             t.Interval = 15 * 1000;
             t.Enabled = true;
 
-            //Debug.WriteLine("end startTimer");
             while (true) { };
         }
 
         private static async void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            //Debug.WriteLine("start ontimedevent");
             List<string> temp = new List<string>(groupedTweets);
             groupedTweets.Clear();
             count = 0;
@@ -65,33 +59,18 @@ namespace TwitterStreamEventBot.App_Start
 
             foreach (string t in temp)
             {
-                //var keywords = Task.Run(() => GetKeywords.MakeRequest(t));
                 Debug.WriteLine(t);
             }
             if (topics != null && topics.Count > 0)
             {
                 countWords(topics);
-                //outreach();
                 CheckTrends.Check();
                 CheckTrends.Check2();
             }
-            //Debug.WriteLine("end ontimedevent");
-        }
-
-        private static void outreach()
-        {            //change
-            var notificationController = new NotificationController();
-            var url = "http://localhost:9000/";
-            var recipient = new ChannelAccount("56800324", "Bot1");
-            var from = new ChannelAccount("2c1c7fa4", "User2");
-            notificationController.SendMessage(url, recipient, from, "outreach");
-            var from2 = new ChannelAccount("2c1c7fa5", "User3");
-            notificationController.SendMessage(url, recipient, from2, "outreach");
         }
 
         private static void countWords(List<string> list)
         {
-            //Debug.WriteLine("start countwords");
             Dictionary<string, int> dict = new Dictionary<string, int>();
             foreach (string s in list)
             {
@@ -119,7 +98,6 @@ namespace TwitterStreamEventBot.App_Start
             var z = dict.OrderByDescending(x => x.Value).Take(15);
             List<string> allKeys = (from key in z select key.Key).ToList();
 
-            //var l = dict.Keys.ToList();
             TrendingTopics.trendingList = allKeys;
 
             Debug.WriteLine(TrendingTopics.trendingList);
@@ -127,28 +105,19 @@ namespace TwitterStreamEventBot.App_Start
             {
                 Debug.WriteLine(word.Key + " " + word.Value);
             }
-            //Debug.WriteLine("end countwords");
         }
 
         private static void startTweetStream(string searchString)
         {
-            //Debug.WriteLine("start TweetStream");
             stream.AddTrack(searchString);
             stream.MatchingTweetReceived += (sender, arg) =>
             {
                 try
                 {
-
                     var jsonData = JsonConvert.SerializeObject(arg.Tweet.TweetDTO);
-                    //Debug.WriteLine(arg.Tweet.Text);
 
-                    //  if (count < 150)
-                    // {
                     groupedTweets.Add(arg.Tweet.Text.ToLower());
                     count++;
-                    //  }
-
-
                 }
 
                 catch (Exception exception)
@@ -170,7 +139,6 @@ namespace TwitterStreamEventBot.App_Start
                 }
             };
             stream.StartStreamMatchingAllConditions();
-            // Debug.WriteLine("end tweetstream");
         }
 
     }

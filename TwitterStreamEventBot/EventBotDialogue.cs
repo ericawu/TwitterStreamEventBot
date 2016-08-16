@@ -35,21 +35,16 @@ namespace TwitterStreamEventBot
             {
                 string entity = e.Entity;
 
-                Topic t = new Topic();
-                t.title = entity;
-                //UserInfo.topicList.Add(t);
-                //UserInfo.topicNames.Add(entity);
-
                 Dictionary<ChannelAccount, DateTime> userList;
                 Dictionary<BotUserChannel, DateTime> userList2;
                 BotUserChannel newChannel = new BotUserChannel();
                 newChannel.recipient = recipient;
                 newChannel.from = from;
 
-                if (!UserInfo.topicDict.TryGetValue(t.title, out userList))
+                if (!UserInfo.topicDict.TryGetValue(entity, out userList))
                 {
-                    UserInfo.topicDict.Add(t.title, new Dictionary<ChannelAccount, DateTime>() { { recipient, DateTime.Now.AddHours(-2) } });
-                    UserInfo.topicDict2.Add(t.title, new Dictionary<BotUserChannel, DateTime>() { { newChannel, DateTime.Now.AddHours(-2) } });
+                    UserInfo.topicDict.Add(entity, new Dictionary<ChannelAccount, DateTime>() { { recipient, DateTime.Now.AddHours(-2) } });
+                    UserInfo.topicDict2.Add(entity, new Dictionary<BotUserChannel, DateTime>() { { newChannel, DateTime.Now.AddHours(-2) } });
                     await context.PostAsync($"You are now following the topic {entity}");
                 }
                 else if (userList.Any(user => user.Key.Id == recipient.Id))
