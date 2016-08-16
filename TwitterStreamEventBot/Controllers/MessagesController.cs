@@ -33,9 +33,12 @@ namespace TwitterStreamEventBot
         [ResponseType(typeof(void))]
         public virtual async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
+             var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
             if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
             {
-                        
+                var testMessage = activity.CreateReply("test");
+                connector.Conversations.ReplyToActivity(testMessage);
+
                 if (UserInfo.topicList == null)
                 {
                     UserInfo.topicList = new List<Topic>();

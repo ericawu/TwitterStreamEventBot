@@ -12,7 +12,7 @@ namespace TwitterStreamEventBot
     public class SAManager
     {
         public static string GetAuthorizationHeader()
-        {
+        {/*
             AuthenticationResult result = null;
             var thread = new Thread(() =>
             {
@@ -22,11 +22,11 @@ namespace TwitterStreamEventBot
                         Constants.ActiveDirectoryEndpoint +
                         Constants.ActiveDirectoryTenantId);
 
-                    result = context.AcquireToken(
+                    result = context.AcquireTokenAsync(
                         resource: Constants.WindowsManagementUri,
                         clientId: Constants.AsaClientId,
-                        redirectUri: new Uri(Constants.RedirectUri),
-                        promptBehavior: PromptBehavior.Always);
+                        redirectUri: new Uri(Constants.RedirectUri)
+                       // promptBehavior: PromptBehavior.Always);
                 }
                 catch (Exception threadEx)
                 {
@@ -92,6 +92,8 @@ namespace TwitterStreamEventBot
 
         }
 
-
+*/
+            return "test";
+        }
     }
 }
