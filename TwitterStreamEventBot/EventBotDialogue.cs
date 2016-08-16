@@ -38,7 +38,8 @@ namespace TwitterStreamEventBot
            
             var m = context.MakeMessage();
             var from = m.From;
-            ChannelAccount recipient = m.Recipient;            
+            ChannelAccount recipient = m.Recipient;
+            string serviceurl = m.ServiceUrl;
             //TODO: space inefficiency
             //TODO: dialog chains for already followed topics? ask if they want to unsubscribe?
             foreach (EntityRecommendation e in result.Entities)
@@ -52,10 +53,16 @@ namespace TwitterStreamEventBot
                     //UserInfo.topicNames.Add(entity);
 
                     Dictionary<ChannelAccount, DateTime> userList;
+
+                BotUserChannel newChannel = new BotUserChannel();
+                newChannel.recipient = recipient;
+                newChannel.from = from;
                 
                     if (!UserInfo.topicDict.TryGetValue(t.title, out userList)) 
                     {
                     UserInfo.topicDict.Add(t.title, new Dictionary<ChannelAccount, DateTime>() { { recipient, DateTime.Now.AddHours(-2) } });
+                    UserInfo.topicDict2.Add(t.title, new Dictionary<BotUserChannel, DateTime>() { { newChannel, DateTime.Now.AddHours(-2) } });
+                    await context.PostAsync($"your url is: {serviceurl}");
                         await context.PostAsync($"You are now following the topic {entity}");
                     }
                     else if (userList.Any(user => user.Key.Id == recipient.Id))

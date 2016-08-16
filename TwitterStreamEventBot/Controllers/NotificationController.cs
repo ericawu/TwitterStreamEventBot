@@ -23,7 +23,14 @@ namespace TwitterStreamEventBot.Controllers
             newMessage.Recipient = recipient;
             newMessage.Text = $"Hey, something interesting's happening with {topic}!";
             newMessage.Locale = "en-Us";
-            newMessage.ChannelId = "emulator";
+            if (url == "http://localhost:9000/")
+            {
+                newMessage.ChannelId = "emulator";
+            }
+            else
+            {
+                newMessage.ChannelId = "skype";
+            }
             newMessage.Conversation = new ConversationAccount(id: conversation.Id);
 
             await connector.Conversations.SendToConversationAsync((Activity)newMessage);

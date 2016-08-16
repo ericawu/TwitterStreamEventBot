@@ -72,6 +72,7 @@ namespace TwitterStreamEventBot.App_Start
                 countWords(topics);
                 //outreach();
                 CheckTrends.Check();
+                CheckTrends.Check2();
             }
             //Debug.WriteLine("end ontimedevent");
         }

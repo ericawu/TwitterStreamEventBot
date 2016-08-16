@@ -177,6 +177,7 @@
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="DBManager\DBQueries.cs" />
     <Compile Include="Dialogs\NotificationDialog.cs" />
+    <Compile Include="Domain\BotUserChannel.cs" />
     <Compile Include="Domain\Topic.cs" />
     <Compile Include="Domain\TrendingTopics.cs" />
     <Compile Include="Domain\UserInfo.cs" />
