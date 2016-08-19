@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web;
 using TwitterStreamEventBot.Controllers;
 using TwitterStreamEventBot.Domain;
-using TwitterStreamEventBot.Test;
 
 namespace TwitterStreamEventBot.Service
 {
@@ -66,6 +65,7 @@ namespace TwitterStreamEventBot.Service
                             {
                                 userListNew[user.Key] = DateTime.Now;
                                 UserInfo.topicDict2[t] = userListNew;
+
                                 BotUserChannel u = user.Key;
                                 notificationController.SendMessage(u.url, u.from, u.recipient, t);
                             }

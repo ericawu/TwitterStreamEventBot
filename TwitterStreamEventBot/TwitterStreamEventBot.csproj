@@ -182,7 +182,6 @@
     <Compile Include="Resource\PublicConstants.cs" />
     <Compile Include="Services\CheckTrends.cs" />
     <Compile Include="Services\GetKeywords.cs" />
-    <Compile Include="Test\Trending.cs" />
     <Compile Include="App_Start\TweetStream.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="EventBotDialogue.cs" />

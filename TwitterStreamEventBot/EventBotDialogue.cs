@@ -42,6 +42,23 @@ namespace TwitterStreamEventBot
                 newChannel.from = from;
                 newChannel.url = serviceurl;
 
+                if(!UserInfo.topicDict2.TryGetValue(entity, out userList2))
+                {
+                    UserInfo.topicDict2.Add(entity, new Dictionary<BotUserChannel, DateTime>() { { newChannel, DateTime.Now.AddHours(-2) } });
+                    await context.PostAsync($"You are now following the topic {entity}");
+                }
+                else if (userList2.Any(user => user.Key.recipient.Id == recipient.Id))
+                {
+                    await context.PostAsync($"I gotchu, you're already following the topic {entity}");
+                }
+                else
+                {
+                    userList2 = UserInfo.topicDict2[entity];
+                    userList2.Add(newChannel, DateTime.Now.AddHours(-2));
+                    UserInfo.topicDict2[entity] = userList2;
+                    await context.PostAsync($"You are now following the topic {entity}");
+                }
+                /*
                 if (!UserInfo.topicDict.TryGetValue(entity, out userList))
                 {
                     UserInfo.topicDict.Add(entity, new Dictionary<ChannelAccount, DateTime>() { { recipient, DateTime.Now.AddHours(-2) } });
@@ -61,6 +78,7 @@ namespace TwitterStreamEventBot
                     UserInfo.topicDict2[entity] = userList2;
                     await context.PostAsync($"You are now following the topic {entity}");
                 }
+                */
 
             }
             context.Done(0);
