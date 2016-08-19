@@ -10,7 +10,6 @@ using Tweetinvi;
 using Tweetinvi.Models;
 using TwitterStreamEventBot.Resource;
 using System.Diagnostics;
-using TwitterStreamEventBot.DBManager;
 using TwitterStreamEventBot.Domain;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
@@ -110,7 +109,7 @@ namespace TwitterStreamEventBot
 
         [LuisIntent("ListTrending")]
         public async Task ListTrending(IDialogContext context, LuisResult result)
-        {
+        {   
             if (TrendingTopics.trendingList == null)
             {
                 await context.PostAsync("Still compiling the list, please ask again in 30 seconds!");

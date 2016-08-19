@@ -172,10 +172,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\TwitterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
-    <Compile Include="DBManager\DBQueries.cs" />
     <Compile Include="Dialogs\NotificationDialog.cs" />
     <Compile Include="Domain\BotUserChannel.cs" />
     <Compile Include="Domain\Topic.cs" />
@@ -183,7 +181,6 @@
     <Compile Include="Domain\UserInfo.cs" />
     <Compile Include="Resource\Constants.cs" />
     <Compile Include="Resource\PublicConstants.cs" />
-    <Compile Include="SAManager.cs" />
     <Compile Include="Services\CheckTrends.cs" />
     <Compile Include="Services\GetKeywords.cs" />
     <Compile Include="Test\Trending.cs" />
@@ -199,7 +196,6 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="SAQuery.ps1" />
     <None Include="Properties\PublishProfiles\TwitterStreamEventBot.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

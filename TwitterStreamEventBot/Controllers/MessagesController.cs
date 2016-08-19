@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using System.Diagnostics;
-using TwitterStreamEventBot.DBManager;
 using TwitterStreamEventBot.Domain;
 using System.Collections.Generic;
 using TwitterStreamEventBot.Dialogs;
