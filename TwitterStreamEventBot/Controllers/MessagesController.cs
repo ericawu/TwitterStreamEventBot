@@ -12,7 +12,6 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using System.Diagnostics;
 using TwitterStreamEventBot.Domain;
 using System.Collections.Generic;
-using TwitterStreamEventBot.Dialogs;
 using TwitterStreamEventBot.Services;
 using TwitterStreamEventBot.Controllers;
 using Microsoft.IdentityModel.Protocols;
@@ -36,15 +35,14 @@ namespace TwitterStreamEventBot
              var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
             if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
             {
-
+                /*
                 if (UserInfo.topicList == null)
                 {
                     UserInfo.topicList = new List<Topic>();
                     UserInfo.topicNames = new HashSet<string>();
                 }
-                ConfigurationManager.AppSettings["BotId"] = "test";
-                var test = new EventBotDialogue();
-                await Conversation.SendAsync(activity, () => test);
+                */
+                await Conversation.SendAsync(activity, () => new EventBotDialogue());
             }
            
             else
@@ -57,12 +55,12 @@ namespace TwitterStreamEventBot
         private async Task<Activity> HandleSystemMessage(Activity message)
         {
             var connector = new ConnectorClient(new Uri(message.ServiceUrl));
-            var url = message.ServiceUrl;
+            /*var url = message.ServiceUrl;
             Debug.WriteLine(url);
             var recipient = message.Recipient;
             Debug.WriteLine(recipient);
             var from = message.From;
-            Debug.WriteLine(from);
+            Debug.WriteLine(from); */
 
             if (message.Type == ActivityTypes.DeleteUserData)
             {

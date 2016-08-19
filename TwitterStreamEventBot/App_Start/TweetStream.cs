@@ -25,7 +25,7 @@ namespace TwitterStreamEventBot.App_Start
     public static class TweetStream
     {
         private static IFilteredStream stream;
-        private static EventHubClient eventHubClient = EventHubClient.CreateFromConnectionString(Constants.ConnectionString, Constants.EventHubName);
+       // private static EventHubClient eventHubClient = EventHubClient.CreateFromConnectionString(Constants.ConnectionString, Constants.EventHubName);
         private static List<string> groupedTweets = new List<string>();
 
         private static List<string> ignoredWords = new List<string>() { "olympic", "olympics", "rt", "rio", "amp" };
@@ -64,7 +64,7 @@ namespace TwitterStreamEventBot.App_Start
             if (topics != null && topics.Count > 0)
             {
                 countWords(topics);
-                CheckTrends.Check();
+                //CheckTrends.Check();
                 CheckTrends.Check2();
             }
         }

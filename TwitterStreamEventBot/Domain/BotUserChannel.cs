@@ -10,5 +10,6 @@ namespace TwitterStreamEventBot.Domain
     {
         public ChannelAccount from { get; set; }
         public ChannelAccount recipient { get; set; }
+        public string url { get; set; }
     }
 }

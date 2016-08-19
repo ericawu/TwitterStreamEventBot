@@ -12,6 +12,7 @@ namespace TwitterStreamEventBot.Service
 {
     public static class CheckTrends
     {
+        /*
         public static void Check()
         {
             var notificationController = new NotificationController();
@@ -42,6 +43,7 @@ namespace TwitterStreamEventBot.Service
                 }
             }
         }
+        */
 
         public static void Check2()
         {
@@ -65,7 +67,7 @@ namespace TwitterStreamEventBot.Service
                                 userListNew[user.Key] = DateTime.Now;
                                 UserInfo.topicDict2[t] = userListNew;
                                 BotUserChannel u = user.Key;
-                                notificationController.SendMessage("https://skype.botframework.com", u.from, u.recipient, t);
+                                notificationController.SendMessage(u.url, u.from, u.recipient, t);
                             }
                         }
                         

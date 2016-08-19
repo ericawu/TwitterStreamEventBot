@@ -174,7 +174,6 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
-    <Compile Include="Dialogs\NotificationDialog.cs" />
     <Compile Include="Domain\BotUserChannel.cs" />
     <Compile Include="Domain\Topic.cs" />
     <Compile Include="Domain\TrendingTopics.cs" />
@@ -205,6 +204,9 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dialogs\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

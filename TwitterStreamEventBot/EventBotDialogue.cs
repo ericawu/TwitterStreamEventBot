@@ -29,6 +29,7 @@ namespace TwitterStreamEventBot
             var from = m.From;
             ChannelAccount recipient = m.Recipient;
             string serviceurl = m.ServiceUrl;
+            
 
             foreach (EntityRecommendation e in result.Entities)
             {
@@ -39,6 +40,7 @@ namespace TwitterStreamEventBot
                 BotUserChannel newChannel = new BotUserChannel();
                 newChannel.recipient = recipient;
                 newChannel.from = from;
+                newChannel.url = serviceurl;
 
                 if (!UserInfo.topicDict.TryGetValue(entity, out userList))
                 {
