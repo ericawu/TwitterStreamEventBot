@@ -77,10 +77,22 @@ namespace TwitterStreamEventBot
                 string entity = e.Entity;
                 Dictionary<ChannelAccount, DateTime> userList;
 
+                Dictionary<BotUserChannel, DateTime> userList2;
                 BotUserChannel newChannel = new BotUserChannel();
                 newChannel.recipient = recipient;
                 newChannel.from = from;
 
+                if (!UserInfo.topicDict2.TryGetValue(entity, out userList2)) {
+                    context.PostAsync($"You aren't subscribed to {entity} yet.");
+                }
+                else if (userList2.Any(user => user.Key.recipient.Id == recipient.Id)) {
+                    var item = userList2.First(u => u.Key.recipient.Id == recipient.Id).Key;
+                    userList2.Remove(item);
+                    UserInfo.topicDict2[entity] = userList2;
+
+                    context.PostAsync($"You are no longer susbscribed to {entity}.");
+                }
+                /*
                 if (!UserInfo.topicDict.TryGetValue(entity, out userList))
                 {
                     context.PostAsync($"You aren't subscribed to {entity} yet.");
@@ -98,10 +110,10 @@ namespace TwitterStreamEventBot
                     userList2.Remove(item2);
                     UserInfo.topicDict2[entity] = userList2;
                     context.PostAsync($"You are no longer susbscribed to {entity}.");
-                }
+                }*/
                 else
                 {
-                    context.PostAsync($"You aren't subscribed to this {entity} yet.");
+                    context.PostAsync($"You aren't subscribed to {entity} yet.");
                 }
 
             }
