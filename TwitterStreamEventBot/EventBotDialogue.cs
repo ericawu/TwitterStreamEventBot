@@ -35,7 +35,6 @@ namespace TwitterStreamEventBot
             {
                 string entity = e.Entity;
 
-                Dictionary<ChannelAccount, DateTime> userList;
                 Dictionary<BotUserChannel, DateTime> userList2;
                 BotUserChannel newChannel = new BotUserChannel();
                 newChannel.recipient = recipient;
@@ -58,28 +57,6 @@ namespace TwitterStreamEventBot
                     UserInfo.topicDict2[entity] = userList2;
                     await context.PostAsync($"You are now following the topic {entity}");
                 }
-                /*
-                if (!UserInfo.topicDict.TryGetValue(entity, out userList))
-                {
-                    UserInfo.topicDict.Add(entity, new Dictionary<ChannelAccount, DateTime>() { { recipient, DateTime.Now.AddHours(-2) } });
-                    UserInfo.topicDict2.Add(entity, new Dictionary<BotUserChannel, DateTime>() { { newChannel, DateTime.Now.AddHours(-2) } });
-                    await context.PostAsync($"You are now following the topic {entity}");
-                }
-                else if (userList.Any(user => user.Key.Id == recipient.Id))
-                {
-                    await context.PostAsync($"I gotchu, you're already following the topic {entity}");
-                }
-                else
-                {
-                    userList.Add(recipient, DateTime.Now.AddHours(-2));
-                    UserInfo.topicDict[entity] = userList;
-                    userList2 = UserInfo.topicDict2[entity];
-                    userList2.Add(newChannel, DateTime.Now.AddHours(-2));
-                    UserInfo.topicDict2[entity] = userList2;
-                    await context.PostAsync($"You are now following the topic {entity}");
-                }
-                */
-
             }
             context.Done(0);
         }
@@ -93,7 +70,6 @@ namespace TwitterStreamEventBot
             foreach (EntityRecommendation e in result.Entities)
             {
                 string entity = e.Entity;
-                Dictionary<ChannelAccount, DateTime> userList;
 
                 Dictionary<BotUserChannel, DateTime> userList2;
                 BotUserChannel newChannel = new BotUserChannel();
@@ -110,25 +86,6 @@ namespace TwitterStreamEventBot
 
                     context.PostAsync($"You are no longer susbscribed to {entity}.");
                 }
-                /*
-                if (!UserInfo.topicDict.TryGetValue(entity, out userList))
-                {
-                    context.PostAsync($"You aren't subscribed to {entity} yet.");
-                }
-                else if (userList.Any(user => user.Key.Id == recipient.Id))
-                {
-                    var item = userList.First(u => u.Key.Id == recipient.Id).Key;
-                    userList.Remove(item);
-                    
-                    UserInfo.topicDict[entity] = userList;
-
-                    Dictionary<BotUserChannel, DateTime> userList2 = UserInfo.topicDict2[entity];
-
-                    var item2 = userList2.First(u => u.Key.recipient.Id == newChannel.recipient.Id).Key;
-                    userList2.Remove(item2);
-                    UserInfo.topicDict2[entity] = userList2;
-                    context.PostAsync($"You are no longer susbscribed to {entity}.");
-                }*/
                 else
                 {
                     context.PostAsync($"You aren't subscribed to {entity} yet.");

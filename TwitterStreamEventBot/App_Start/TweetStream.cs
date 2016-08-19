@@ -25,7 +25,6 @@ namespace TwitterStreamEventBot.App_Start
     public static class TweetStream
     {
         private static IFilteredStream stream;
-       // private static EventHubClient eventHubClient = EventHubClient.CreateFromConnectionString(Constants.ConnectionString, Constants.EventHubName);
         private static List<string> groupedTweets = new List<string>();
 
         private static List<string> ignoredWords = new List<string>() { "olympic", "olympics", "rt", "rio", "amp" };
@@ -115,7 +114,6 @@ namespace TwitterStreamEventBot.App_Start
                 try
                 {
                     var jsonData = JsonConvert.SerializeObject(arg.Tweet.TweetDTO);
-
                     groupedTweets.Add(arg.Tweet.Text.ToLower());
                     count++;
                 }

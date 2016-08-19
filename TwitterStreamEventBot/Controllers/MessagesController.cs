@@ -35,13 +35,7 @@ namespace TwitterStreamEventBot
              var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
             if (activity != null && activity.GetActivityType() == ActivityTypes.Message)
             {
-                /*
-                if (UserInfo.topicList == null)
-                {
-                    UserInfo.topicList = new List<Topic>();
-                    UserInfo.topicNames = new HashSet<string>();
-                }
-                */
+
                 await Conversation.SendAsync(activity, () => new EventBotDialogue());
             }
            
@@ -55,12 +49,6 @@ namespace TwitterStreamEventBot
         private async Task<Activity> HandleSystemMessage(Activity message)
         {
             var connector = new ConnectorClient(new Uri(message.ServiceUrl));
-            /*var url = message.ServiceUrl;
-            Debug.WriteLine(url);
-            var recipient = message.Recipient;
-            Debug.WriteLine(recipient);
-            var from = message.From;
-            Debug.WriteLine(from); */
 
             if (message.Type == ActivityTypes.DeleteUserData)
             {
