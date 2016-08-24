@@ -13,6 +13,6 @@ Text Analytics Sign Up: https://azure.microsoft.com/en-us/documentation/articles
 LUIS: https://luis.ai 
 Azure: https://azure.microsoft.com/en-us/ 
 
-Add the keys to PublicConstants.cs. 
+Add your keys to PublicConstants.cs. 
 
-Now, it’s time to run the program! If you don’t have a bot emulator, go to https://docs.botframework.com/en-us/tools/bot-framework-emulator/ for instructions. Once you have it, you’re ready to go!
+Now, it’s time to run the program! If you don’t have a bot emulator, go to https://docs.botframework.com/en-us/tools/bot-framework-emulator/ for instructions on how to download. Once you have it, you’re ready to go!
