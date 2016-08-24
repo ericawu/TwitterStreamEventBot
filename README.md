@@ -9,8 +9,11 @@ Get real time information on what's exciting at the Olympics! If you're interest
 To run this bot, you’re going to need Twitter Access tokens, an Azure account, a cognitive services instance, and a LUIS account.
 
 Twitter: https://dev.twitter.com/oauth/overview/application-owner-access-tokens 
+
 Text Analytics Sign Up: https://azure.microsoft.com/en-us/documentation/articles/cognitive-services-text-analytics-quick-start/ 
+
 LUIS: https://luis.ai 
+
 Azure: https://azure.microsoft.com/en-us/ 
 
 Add your keys to PublicConstants.cs. 
