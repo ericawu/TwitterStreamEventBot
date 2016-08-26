@@ -26,7 +26,7 @@ namespace TwitterStreamEventBot
         public async Task Subscribe(IDialogContext context, LuisResult result)
         {
             var m = context.MakeMessage();
-            var from = m.From;
+            ChannelAccount from = m.From;
             ChannelAccount recipient = m.Recipient;
             string serviceurl = m.ServiceUrl;
             

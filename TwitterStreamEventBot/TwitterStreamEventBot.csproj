@@ -175,7 +175,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Domain\BotUserChannel.cs" />
-    <Compile Include="Domain\Topic.cs" />
     <Compile Include="Domain\TrendingTopics.cs" />
     <Compile Include="Domain\UserInfo.cs" />
     <Compile Include="Resource\Constants.cs" />

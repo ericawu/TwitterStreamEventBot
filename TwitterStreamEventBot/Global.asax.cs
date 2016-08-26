@@ -20,7 +20,7 @@ namespace TwitterStreamEventBot
             TweetStream.initializeStream();
             //TwitterConfig.StartStream();
             //Application["ApplicationTest"] = "Test of application state";
-           UserInfo.topicDict = new Dictionary<string, Dictionary<Microsoft.Bot.Connector.ChannelAccount, DateTime>>();
+            //UserInfo.topicDict = new Dictionary<string, Dictionary<Microsoft.Bot.Connector.ChannelAccount, DateTime>>();
             UserInfo.topicDict2 = new Dictionary<string, Dictionary<BotUserChannel, DateTime>>();
         }        
     }
