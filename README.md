@@ -5,7 +5,9 @@ Step by step instructions on how to build the bot: https://docs.google.com/docum
 
 #Add on Skype:
 @olympics-bot
-You can subscribe and unsubscribe to topics, or you can ask what's trending. Examples of things you can say to the bot are, "What's trending?" and "Subscribe me to swimming." If you can't find it, that means it's still in review. You can also download from this link: https://join.skype.com/bot/d77d39d5-ed88-4efb-8b49-1b5c3b18b0a8 
+You can subscribe and unsubscribe to topics, or you can ask what's trending. Examples of things you can say to the bot are, "What's trending?" and "Subscribe me to swimming." 
+
+If you can't find it, that means it's still in review. You can also download from this link: https://join.skype.com/bot/d77d39d5-ed88-4efb-8b49-1b5c3b18b0a8 
 However, that link is meant to be for private demos so only the first 100 subscribers will be able to add it to their Skype. 
 
 #Try it out!
